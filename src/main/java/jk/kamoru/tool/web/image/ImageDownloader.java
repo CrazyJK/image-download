@@ -158,15 +158,15 @@ public class ImageDownloader implements Callable<File> {
 			// make title
 			if (title == null) {
 				title = StringUtils.substringAfterLast(imgSrc, "/");
-				String suffix = StringUtils.substringAfterLast(title, ".");
-				if (!IMAGE_SUFFIX_LIST.contains(suffix.toLowerCase())) {
-					// find suffix in header
-					suffix = StringUtils.substringAfterLast(contentType, "/");
-					if (StringUtils.isEmpty(suffix))
-						title += "." + DEFAULT_IMAGE_SUFFIX;
-					else
-						title += "." + suffix;
-				}
+			}
+			String suffix = StringUtils.substringAfterLast(title, ".");
+			if (!IMAGE_SUFFIX_LIST.contains(suffix.toLowerCase())) {
+				// find suffix in header
+				suffix = StringUtils.substringAfterLast(contentType, "/");
+				if (StringUtils.isEmpty(suffix))
+					title += "." + DEFAULT_IMAGE_SUFFIX;
+				else
+					title += "." + suffix;
 			}
 			
 			// destination path
@@ -213,15 +213,17 @@ public class ImageDownloader implements Callable<File> {
 			}
 		} 
 		catch (ClientProtocolException e) { // httpClient.execute(httpGet);
-			logger.error("connect fail", e);
+			logger.error("connect fail " + imgSrc, e);
 		} 
 		catch (IOException e) { // httpClient.execute(httpGet); outputstream error
-			logger.error("download fail", e);
+			logger.error("download fail {} : {}",e.getMessage(), imgSrc);
 		} 
 		catch (DownloadException e) {
 			logger.error("illegal download state : {}", e.getMessage());
 		} 
-			
+		catch (Exception e) {
+			logger.error("fail " + imgSrc, e);
+		}			
 		return imageFile;
 	}
 

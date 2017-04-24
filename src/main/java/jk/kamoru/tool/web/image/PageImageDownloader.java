@@ -35,6 +35,8 @@ public class PageImageDownloader {
 
 	private static final Logger logger = LoggerFactory.getLogger(PageImageDownloader.class);
 
+	private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36";
+
 	/** web page URL */
 	private String pageUrl;
 	/** local destination folder */
@@ -169,7 +171,7 @@ public class PageImageDownloader {
 			// connect and get image page by jsoup HTML parser
 			Document document;
 			try {
-				document = Jsoup.connect(pageUrl).get();
+				document = Jsoup.connect(pageUrl).timeout(60*1000).userAgent(USER_AGENT).get();
 			} 
 			catch (IOException e) {
 				throw new DownloadException(pageUrl, "could not connect", e);
@@ -289,7 +291,7 @@ public class PageImageDownloader {
 		public String toString() {
 			return String
 					.format("DownloadResult [pageUrl=%s, result=%s, count=%s, message=%s, images=%s]",
-							pageUrl, result, count, message, images.size());
+							pageUrl, result, count, message, images == null ? "NaN" : images.size());
 		}
 
 	}
