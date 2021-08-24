@@ -10,7 +10,7 @@ public class Yaddal {
 		PageImageDownloader pageDownloader = new PageImageDownloader(
 				"https://www.yaddal.tv/bbs/board.php?bo_table=ys_01&wr_id=27448", "E:\\yaddal");
 		pageDownloader.setMinimumImageSize(50 * FileUtils.ONE_KB);
-		pageDownloader.download();
+		pageDownloader.start();
 	}
 
 }

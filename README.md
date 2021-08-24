@@ -8,7 +8,7 @@ Web page images downloader
 
 		// direct download
 		ImageDownloader downloader = new ImageDownloader("image url", "local destination path");
-		File image = downloader.download();
+		File image = downloader.start();
 
 		//using ExcutorService
 		ExecutorService service = Executors.newFixedThreadPool(1);
@@ -22,11 +22,11 @@ Web page images downloader
 		pageDownloader.setMinimumImageSize(50 * FileUtils.ONE_KB);
 
 		// direct download
-		DownloadResult result = pageDownloader.download();
+		DownloadResult result = pageDownloader.start();
 		
 		//using ExcutorService
 		ExecutorService service = Executors.newFixedThreadPool(1);
-		Future<DownloadResult> resultFuture = pageDownloader.download(service);
+		Future<DownloadResult> resultFuture = pageDownloader.start(service);
 		service.shutdown();
 		DownloadResult result = resultFuture.get();
 
